@@ -1,0 +1,10 @@
+{
+  "configurations": [
+    {
+      "name": "OAuth",
+      "type": "dart",
+      "program": "lib/main.dart",
+      "request": "launch",
+    },
+  ]
+}
