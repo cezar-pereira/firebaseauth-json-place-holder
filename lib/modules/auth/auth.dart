@@ -1,3 +1,17 @@
 export 'auth_module.dart';
+export 'auth_routes.dart';
+export 'data/datasources/auth_remote_datasource.dart';
+export 'data/repositories/auth_repository_impl.dart';
+export 'domain/entities/login_with_email_password_dto_request.dart';
+export 'domain/entities/user.dart';
+export 'domain/repositories/auth_repository.dart';
+export 'presentation/blocs/login_cubit.dart';
+export 'presentation/blocs/login_state.dart';
+export 'presentation/blocs/logout_cubit.dart';
+export 'presentation/blocs/logout_state.dart';
+export 'presentation/pages/keys/login_page_keys.dart';
 export 'presentation/pages/login_page.dart';
 export 'presentation/pages/splash_page.dart';
+export 'services/auth_notifier.dart';
+export 'services/auth_state.dart';
+export 'services/services.dart';

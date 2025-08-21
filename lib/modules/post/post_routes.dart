@@ -1,4 +1,4 @@
 class PostRoutes {
   static const String posts = '/posts';
-  static const String post = '/post';
+  static const String postDetails = '/post_details';
 }
