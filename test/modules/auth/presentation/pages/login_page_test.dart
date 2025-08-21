@@ -8,13 +8,12 @@ import '../../../../../integration_test/mocks.dart';
 
 void main() {
   late MockFirebaseAuth mockAuth;
-
   setUp(() {
     mockAuth = MockFirebaseAuth();
   });
 
   testWidgets('Should render e-mail and password fields', (tester) async {
-    Modular.bindModule(AppModule());
+    Modular.bindModule(AppModule(authFirebase: mockAuth));
     Modular.bindModule(AuthModule(authFirebase: mockAuth));
 
     await tester.pumpWidget(MaterialApp(home: LoginPage()));

@@ -5,11 +5,20 @@ import 'core/core.dart';
 import 'modules/modules.dart';
 
 class AppModule extends Module {
+  final FirebaseAuth? authFirebase;
+
+  AppModule({this.authFirebase});
+
+  @override
+  List<Module> get imports => [
+    AuthModule(authFirebase: authFirebase ?? FirebaseAuth.instance),
+  ];
+
   @override
   void routes(RouteManager r) {
     r.module(
       Modular.initialRoute,
-      module: AuthModule(authFirebase: FirebaseAuth.instance),
+      module: AuthModule(authFirebase: authFirebase ?? FirebaseAuth.instance),
     );
     r.module(
       Modular.initialRoute,

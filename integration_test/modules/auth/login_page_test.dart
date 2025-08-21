@@ -19,7 +19,7 @@ void main() {
     mockAuthRepository = MockAuthRepository();
     loginCubit = LoginCubit(loginRepository: mockAuthRepository);
     mockAuth = MockFirebaseAuth();
-    Modular.bindModule(AppModule());
+    Modular.bindModule(AppModule(authFirebase: mockAuth));
     Modular.bindModule(AuthModule(authFirebase: mockAuth));
     Modular.replaceInstance<AuthRepository>(mockAuthRepository);
     Modular.replaceInstance<LoginCubit>(loginCubit);
@@ -168,7 +168,7 @@ void main() {
     );
 
     when(
-      () => navigator.pushNamed(PostRoutes.posts),
+      () => navigator.navigate(PostRoutes.posts),
     ).thenAnswer((_) => Future.value(null));
 
     when(
@@ -190,6 +190,6 @@ void main() {
       password: password,
     );
 
-    verify(() => navigator.pushNamed(PostRoutes.posts)).called(1);
+    verify(() => navigator.navigate(PostRoutes.posts)).called(1);
   });
 }

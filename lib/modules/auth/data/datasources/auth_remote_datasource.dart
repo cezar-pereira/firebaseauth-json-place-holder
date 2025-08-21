@@ -59,7 +59,7 @@ class AuthFirebaseDatasourceImpl implements AuthDatasource {
   @override
   Future<auth.User> getCurrentUser() async {
     try {
-      final user = FirebaseAuth.instance.currentUser;
+      final user = _auth.currentUser;
 
       if (user == null) throw AuthUnauthenticated();
 

@@ -1,10 +1,10 @@
-import 'package:firebase_auth/firebase_auth.dart' as firebase;
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 
 import 'auth.dart';
 
 class AuthModule extends Module {
-  final firebase.FirebaseAuth authFirebase;
+  final FirebaseAuth authFirebase;
 
   AuthModule({required this.authFirebase});
 
@@ -13,12 +13,12 @@ class AuthModule extends Module {
     /* DATASOURCE */
     i.addInstance<AuthDatasource>(AuthFirebaseDatasourceImpl(authFirebase));
     /* REPOSITORIES */
+    i.addLazySingleton<AuthRepository>(AuthRepositoryImpl.new);
     /* SERVICES */
     i.addLazySingleton<AuthNotifier>(AuthNotifier.new);
     /* USECASES */
-    /* CONTROLLERS */
+    /* CUBITS */
     i.addLazySingleton<LoginCubit>(LoginCubit.new);
-    i.addLazySingleton<AuthRepository>(AuthRepositoryImpl.new);
     i.addLazySingleton<LogoutCubit>(LogoutCubit.new);
     super.binds(i);
   }

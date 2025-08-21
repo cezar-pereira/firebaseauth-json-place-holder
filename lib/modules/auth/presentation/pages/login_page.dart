@@ -40,7 +40,7 @@ class _LoginPageState extends State<LoginPage> {
             listener: (context, state) {
               if (state is LoginSuccess) {
                 AppInject.get<AuthNotifier>().authenticate(state.user);
-                AppNavigator.pushNamed(PostRoutes.posts);
+                AppNavigator.navigate(PostRoutes.posts);
               }
             },
             builder: (context, state) {
