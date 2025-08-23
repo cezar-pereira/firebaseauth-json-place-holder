@@ -1,5 +1,5 @@
-import 'package:flutter/widgets.dart';
+import 'package:flutter/material.dart';
 
 class PostPageKeys {
-  static const Key btnLogout = Key('btn_logout');
+  static const loadingMorePost = Key('loading_more_post');
 }

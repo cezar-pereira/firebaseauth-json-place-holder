@@ -29,12 +29,12 @@ void main() {
 
         final result = await repository.loginWithEmailPassword(dto);
 
-        expect(result, isA<Right<LoginState, LoginSuccess>>());
+        expect(result, isA<Right<AuthRepositoryFailure, User>>());
       },
     );
 
     test(
-      'should return a LoginState when datasource throws a LoginState exception',
+      'should return a LoginUnauthorizedFailure when datasource throws an exception',
       () async {
         final dto = LoginWithEmailPasswordDtoRequest(
           email: 'email',
@@ -42,17 +42,20 @@ void main() {
         );
         when(
           () => datasource.loginWithEmailPassword(dto),
-        ).thenThrow(const Unauthorized());
+        ).thenThrow(LoginUnauthorizedFailure());
 
         final result = await repository.loginWithEmailPassword(dto);
 
-        expect(result, isA<Left<LoginState, LoginSuccess>>());
-        expect(result.fold((l) => l, (r) => r), isA<Unauthorized>());
+        expect(result, isA<Left<AuthRepositoryFailure, User>>());
+        expect(
+          result.fold((l) => l, (r) => r),
+          isA<LoginUnauthorizedFailure>(),
+        );
       },
     );
 
     test(
-      'should return a LoginError when datasource throws a generic exception',
+      'should return a LoginGenericFailure when datasource throws a generic exception',
       () async {
         final dto = LoginWithEmailPasswordDtoRequest(
           email: 'email',
@@ -60,12 +63,12 @@ void main() {
         );
         when(
           () => datasource.loginWithEmailPassword(dto),
-        ).thenThrow(Exception('error'));
+        ).thenThrow(LoginGenericFailure(''));
 
         final result = await repository.loginWithEmailPassword(dto);
 
-        expect(result, isA<Left<LoginState, LoginSuccess>>());
-        expect(result.fold((l) => l, (r) => r), isA<LoginError>());
+        expect(result, isA<Left<AuthRepositoryFailure, User>>());
+        expect(result.fold((l) => l, (r) => r), isA<LoginGenericFailure>());
       },
     );
   });

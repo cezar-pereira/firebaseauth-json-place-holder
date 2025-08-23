@@ -32,7 +32,7 @@ void main() {
       () async {
         when(
           () => repository.loginWithEmailPassword(request),
-        ).thenAnswer((_) async => const Left(LoginState.unauthorized()));
+        ).thenAnswer((_) async => const Left(LoginUnauthorizedFailure()));
         await cubit.login(email: email, password: password);
         expect(cubit.state, isA<Unauthorized>());
       },
@@ -43,7 +43,7 @@ void main() {
       () async {
         when(
           () => repository.loginWithEmailPassword(request),
-        ).thenAnswer((_) async => Left(LoginState.error(message: 'error')));
+        ).thenAnswer((_) async => const Left(LoginGenericFailure('error')));
         await cubit.login(email: email, password: password);
         expect(cubit.state, isA<LoginError>());
       },
@@ -54,7 +54,7 @@ void main() {
       () async {
         when(
           () => repository.loginWithEmailPassword(request),
-        ).thenAnswer((_) async => Right(LoginSuccess(user: user)));
+        ).thenAnswer((_) async => Right(user));
         await cubit.login(email: email, password: password);
         expect(cubit.state, isA<LoginSuccess>());
       },

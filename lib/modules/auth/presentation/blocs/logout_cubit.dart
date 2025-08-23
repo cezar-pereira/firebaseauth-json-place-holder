@@ -18,8 +18,8 @@ class LogoutCubit extends Cubit<LogoutState> {
 
     final result = await _loginRepository.logout();
     result.fold(
-      (e) {
-        emit(e);
+      (failure) {
+        emit(failure.toLogoutState());
       },
       (user) {
         _authNotifier.unauthenticate();

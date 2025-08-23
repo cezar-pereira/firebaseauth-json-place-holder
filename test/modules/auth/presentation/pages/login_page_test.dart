@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:oauth_json_place_holder/app_module.dart';
 import 'package:oauth_json_place_holder/modules/modules.dart';
+import 'package:oauth_json_place_holder/shared_module.dart';
 
 import '../../../../../integration_test/mocks.dart';
 
@@ -13,8 +14,9 @@ void main() {
   });
 
   testWidgets('Should render e-mail and password fields', (tester) async {
+    Modular.bindModule(SharedModule(authFirebase: mockAuth));
     Modular.bindModule(AppModule(authFirebase: mockAuth));
-    Modular.bindModule(AuthModule(authFirebase: mockAuth));
+    Modular.bindModule(AuthModule());
 
     await tester.pumpWidget(MaterialApp(home: LoginPage()));
     await tester.pumpAndSettle();

@@ -17,6 +17,7 @@ class _LoginPageState extends State<LoginPage> {
   final _passwordEC = TextEditingController(text: '');
   final _formKey = GlobalKey<FormState>();
   final _cubit = AppInject.get<LoginCubit>();
+  final _cubitAuthNotifier = AppInject.get<AuthNotifier>();
 
   @override
   void initState() {
@@ -27,6 +28,8 @@ class _LoginPageState extends State<LoginPage> {
   void dispose() {
     _emailEC.dispose();
     _passwordEC.dispose();
+    _cubit.close();
+    _cubitAuthNotifier.close();
     super.dispose();
   }
 
@@ -39,7 +42,7 @@ class _LoginPageState extends State<LoginPage> {
           child: BlocConsumer<LoginCubit, LoginState>(
             listener: (context, state) {
               if (state is LoginSuccess) {
-                AppInject.get<AuthNotifier>().authenticate(state.user);
+                _cubitAuthNotifier.authenticate(state.user);
                 AppNavigator.navigate(PostRoutes.posts);
               }
             },
@@ -95,7 +98,6 @@ class _LoginPageState extends State<LoginPage> {
                       ),
                     ),
                   ),
-
                   FilledButton.icon(
                     key: LoginPageKeys.btnLogin,
                     icon: state is LoginLoading

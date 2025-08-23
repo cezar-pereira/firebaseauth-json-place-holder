@@ -10,14 +10,18 @@ class AuthNotifier extends Cubit<AuthState> {
     emit(AuthLoading());
 
     final user = await _authRepository.getCurrentUser();
-    await Future.delayed(Duration(seconds: 2));
+    await Future.delayed(Duration(seconds: 1));
 
     user.fold(
-      (error) {
-        emit(error);
+      (failure) {
+        if (failure is AuthenticationUnauthenticatedFailure) {
+          emit(AuthUnauthenticated());
+        } else {
+          emit(AuthFailure(failure.message));
+        }
       },
       (user) {
-        emit(user);
+        emit(AuthAuthenticated(user: user));
       },
     );
   }

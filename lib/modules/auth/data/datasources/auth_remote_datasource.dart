@@ -27,20 +27,24 @@ class AuthFirebaseDatasourceImpl implements AuthDatasource {
         password: dto.password,
       );
 
+      final user = credential.user;
+      if (user == null) throw AuthUnauthenticated();
+
       return auth.User(
-        email: credential.user?.email ?? "",
-        name: credential.user?.displayName ?? '',
-        id: credential.user?.uid ?? '',
+        id: user.uid,
+        name: user.displayName,
+        email: user.email,
+        photoUrl: user.photoURL,
       );
     } on FirebaseAuthException catch (e) {
       throw switch (e.code) {
-        'too-many-requests' => LoginState.manyFailedLoginAttempts(),
-        'invalid-email' => LoginState.invalidEmail(),
-        'user-disabled' => LoginState.userDisabled(),
-        'INVALID_LOGIN_CREDENTIALS' => LoginState.unauthorized(),
-        'user-not-found' => LoginState.unauthorized(),
-        'invalid-credential' => LoginState.unauthorized(),
-        _ => LoginState.error(message: e.message ?? ''),
+        'too-many-requests' => LoginManyFailedAttemptsFailure(),
+        'invalid-email' => LoginInvalidEmailFailure(),
+        'user-disabled' => LoginUserDisabledFailure(),
+        'INVALID_LOGIN_CREDENTIALS' => LoginUnauthorizedFailure(),
+        'user-not-found' => LoginUnauthorizedFailure,
+        'invalid-credential' => LoginUnauthorizedFailure(),
+        _ => LoginGenericFailure(e.message ?? ''),
       };
     } catch (_) {
       rethrow;
@@ -64,9 +68,10 @@ class AuthFirebaseDatasourceImpl implements AuthDatasource {
       if (user == null) throw AuthUnauthenticated();
 
       return auth.User(
-        email: user.email ?? "",
-        name: user.displayName ?? '',
+        email: user.email,
+        name: user.displayName,
         id: user.uid,
+        photoUrl: user.photoURL,
       );
     } catch (e) {
       rethrow;

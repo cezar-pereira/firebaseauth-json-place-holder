@@ -17,11 +17,11 @@ class LoginCubit extends Cubit<LoginState> {
     );
     final result = await _loginRepository.loginWithEmailPassword(request);
     result.fold(
-      (e) {
-        emit(e);
+      (failure) {
+        emit(failure.toLoginState());
       },
       (user) {
-        emit(user);
+        emit(LoginState.success(user: user));
       },
     );
   }

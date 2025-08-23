@@ -1,4 +1,6 @@
+export 'extensions/ext_context.dart';
 export 'extensions/ext_string.dart';
+export 'presentation/widgets/photo_user.dart';
 export 'rest_client/dio/dio_rest_client.dart';
 export 'rest_client/rest_client.dart';
 export 'rest_client/rest_client_response.dart';

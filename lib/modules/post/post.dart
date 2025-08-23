@@ -1,5 +1,16 @@
+export 'data/datasources/post_datasource.dart';
+export 'data/repositories/post_repository_imp.dart';
+export 'domain/entities/author_failure.dart';
+export 'domain/entities/author_model.dart';
+export 'domain/entities/post_failure.dart';
+export 'domain/entities/post_model.dart';
+export 'domain/repositories/post_repository.dart';
 export 'post_module.dart';
 export 'post_routes.dart';
+export 'presentation/blocs/post_author_cubit.dart';
+export 'presentation/blocs/post_author_state.dart';
+export 'presentation/blocs/post_cubit.dart';
+export 'presentation/blocs/post_state.dart';
 export 'presentation/pages/keys/post_page_keys.dart';
 export 'presentation/pages/post_details_page.dart';
 export 'presentation/pages/posts_page.dart';

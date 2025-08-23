@@ -6,6 +6,7 @@ import 'package:integration_test/integration_test.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:oauth_json_place_holder/app_module.dart';
 import 'package:oauth_json_place_holder/modules/modules.dart';
+import 'package:oauth_json_place_holder/shared_module.dart';
 
 import '../../mocks.dart';
 
@@ -20,6 +21,7 @@ void main() {
     loginCubit = LoginCubit(loginRepository: mockAuthRepository);
     mockAuth = MockFirebaseAuth();
     Modular.bindModule(AppModule(authFirebase: mockAuth));
+    Modular.bindModule(SharedModule(authFirebase: mockAuth));
     Modular.bindModule(AuthModule(authFirebase: mockAuth));
     Modular.replaceInstance<AuthRepository>(mockAuthRepository);
     Modular.replaceInstance<LoginCubit>(loginCubit);
@@ -27,6 +29,7 @@ void main() {
 
   tearDown(() async {
     reset(mockAuthRepository);
+    loginCubit.close();
   });
 
   Future<void> enterCredentialsAndConfirm({
@@ -62,7 +65,7 @@ void main() {
 
     when(
       () => mockAuthRepository.loginWithEmailPassword(loginRequest),
-    ).thenAnswer((_) async => const Left(LoginState.unauthorized()));
+    ).thenAnswer((_) async => const Left(LoginUnauthorizedFailure()));
 
     await tester.pumpWidget(const MaterialApp(home: LoginPage()));
     await tester.pumpAndSettle();
@@ -90,9 +93,7 @@ void main() {
 
     when(
       () => mockAuthRepository.loginWithEmailPassword(loginRequest),
-    ).thenAnswer(
-      (_) async => const Left(LoginState.error(message: messageError)),
-    );
+    ).thenAnswer((_) async => const Left(LoginGenericFailure(messageError)));
 
     await tester.pumpWidget(const MaterialApp(home: LoginPage()));
     await tester.pumpAndSettle();
@@ -174,11 +175,7 @@ void main() {
     when(
       () => mockAuthRepository.loginWithEmailPassword(loginRequest),
     ).thenAnswer((_) async {
-      return Left(
-        LoginState.success(
-          user: User(id: 'id', name: 'name', email: email),
-        ),
-      );
+      return Right(User(id: 'id', name: 'name', email: email));
     });
 
     await tester.pumpWidget(const MaterialApp(home: LoginPage()));
