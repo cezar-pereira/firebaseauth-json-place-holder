@@ -95,11 +95,16 @@ class _PostsPageStateError extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Center(
+      key: PostPageKeys.pageErrorPost,
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Text('Ocorreu um erro'),
-          TextButton(onPressed: onRetry, child: Text('Tentar novamente')),
+          TextButton(
+            key: PostPageKeys.btnTryAgainPost,
+            onPressed: onRetry,
+            child: Text('Tentar novamente'),
+          ),
         ],
       ),
     );
@@ -111,7 +116,10 @@ class _PostsPageStateEmpty extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Center(child: Text('Nenhum post encontrado'));
+    return Center(
+      key: PostPageKeys.pageEmptyPost,
+      child: Text('Nenhum post encontrado'),
+    );
   }
 }
 
@@ -132,9 +140,7 @@ class __PostItemState extends State<_PostItem> {
   Widget build(BuildContext context) {
     final body = widget.post.body;
 
-    final truncated = body.length > maxLength && !isExpanded
-        ? '${body.substring(0, maxLength)}...'
-        : body;
+    final truncated = !isExpanded ? body.trunctPostBody(maxLength) : body;
 
     return InkWell(
       onTap: () => AppNavigator.pushNamed(
@@ -152,6 +158,7 @@ class __PostItemState extends State<_PostItem> {
             Text(truncated, textAlign: TextAlign.justify),
             if (body.length > maxLength)
               TextButton(
+                key: Key("expandPost-${widget.post.id}"),
                 onPressed: () {
                   setState(() {
                     isExpanded = !isExpanded;

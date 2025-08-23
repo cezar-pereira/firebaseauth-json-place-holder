@@ -29,7 +29,6 @@ class _LoginPageState extends State<LoginPage> {
     _emailEC.dispose();
     _passwordEC.dispose();
     _cubit.close();
-    _cubitAuthNotifier.close();
     super.dispose();
   }
 
