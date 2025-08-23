@@ -42,7 +42,7 @@ class AuthFirebaseDatasourceImpl implements AuthDatasource {
         'invalid-email' => LoginInvalidEmailFailure(),
         'user-disabled' => LoginUserDisabledFailure(),
         'INVALID_LOGIN_CREDENTIALS' => LoginUnauthorizedFailure(),
-        'user-not-found' => LoginUnauthorizedFailure,
+        'user-not-found' => LoginUnauthorizedFailure(),
         'invalid-credential' => LoginUnauthorizedFailure(),
         _ => LoginGenericFailure(e.message ?? ''),
       };
