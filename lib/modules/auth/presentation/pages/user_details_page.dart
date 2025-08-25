@@ -67,7 +67,7 @@ class _ButtonExitState extends State<_ButtonExit> {
   @override
   Widget build(BuildContext context) {
     return TextButton(
-      // key: PostPageKeys.btnLogout,//static const Key btnLogout = Key('btn_logout');
+      key: LoginPageKeys.btnLogout,
       onPressed: logout.logout,
       child: Text('Sair'),
     );

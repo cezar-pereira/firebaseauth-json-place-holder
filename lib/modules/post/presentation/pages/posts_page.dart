@@ -46,6 +46,7 @@ class _PostsPageState extends State<PostsPage> {
           Padding(
             padding: const EdgeInsets.only(right: 20),
             child: GestureDetector(
+              key: PostPageKeys.btnPhotoUser,
               onTap: () => AppNavigator.pushNamed(AuthRoutes.userDetails),
               child: PhotoUser(),
             ),
